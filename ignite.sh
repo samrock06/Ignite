@@ -284,10 +284,10 @@ if [[ ! -f "/usr/bin/ignite.sh" ]]; then
 
 	# If user wants to install
 	if [[ $resp == "y" ]]; then
-		echo "Copy 'ignite' to /usr/bin/"
+		echo "Copied 'ignite.sh' to /usr/bin/"
 		`sudo cp ignite.sh /usr/bin`
 		pause
-		echo "Link to 'ignite' from /usr/bin/"
+		echo "Created Link to 'ignite' from /usr/bin/"
 		`sudo ln -s ignite.sh /usr/bin/ignite`
 		echo "Installation Complete"
 		echo "Type 'ignite --help' for help"
@@ -316,28 +316,28 @@ if [[ $# -ge 1 ]]; then
 			DNAME=$3
 			echo "CWD: `pwd`"
 			boot
-			echo "Created $DNAME with files"
+			echo "Created $DNAME with Bootstrap"
 			exit 0
 		
 		elif [[ $arg2 == "found" ]]; then
 			DNAME=$3
 			echo "CWD: `pwd`"
 			found
-			echo "Created $DNAME with files"
+			echo "Created $DNAME with Foundation"
 			exit 0
 		
 		elif [[ $arg2 == "both" ]]; then
 			DNAME=$3
 			echo "CWD: `pwd`"
 			multi
-			echo "Created $DNAME with files"
+			echo "Created $DNAME with Foundation & Bootstrap"
 			exit 0
 		
 		elif [[ $arg2 == "nf" ]]; then
 			DNAME=$3
 			echo "CWD: `pwd`"
 			noframe
-			echo "Created $DNAME with files"
+			echo "Created $DNAME with No Framework"
 			exit 0
 		else
 			echo "Type 'ignite --help' for help"
