@@ -1,6 +1,5 @@
 #!/bin/bash
 # init
-
 # Author: Samuel Haruna
 # Created: 01/07/2012
 
