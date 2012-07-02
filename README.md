@@ -16,7 +16,7 @@ INSTALLING
 
 To get Ignite from GitHub and install it:
 
-git clone git://github.com/iammrharuna/Ignite.git
+git clone git://github.com/samrock06/Ignite.git
 
 cd Ignite
 
