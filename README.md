@@ -86,5 +86,17 @@ USAGE
 
 	'ignite -o nf projectname' -- CodeIgniter install with no CSS framework
 
+TODO
+
+1. Minor Bug fixes
+
+2. Implement better error checks
+
+3. Creation of .htaccess
+
+4. Automated removal of /index.php from URL
+
+and more as it comes to me.
+
 WIll appreciate much help with this as this is my first attempt at shell scripting.
 
