@@ -2,13 +2,17 @@
 # init
 # Author: Samuel Haruna
 # Created: 01/07/2012
+# Last Update: 28/09/2012
 
-codeigniter="http://downloads.codeigniter.com/reactor/CodeIgniter_2.0.3.zip"
+codeigniter="http://codeigniter.com/download.php"
 bootstrap="http://twitter.github.com/bootstrap/assets/bootstrap.zip"
 foundation="http://foundation.zurb.com/files/foundation3.zip"
+CURRENT=`PWD`
+CI_PATH=`find ~/ \( -name "CodeIgniter*.zip" \) -print -quit`
 
 echo "<=====================================>"
 echo "CodeIgniter Scaffolding Generator v0.1"
+echo "Linux/Mac OS CI Installer"
 echo "By GrimVealt."
 echo "<=====================================>"
 echo ""
@@ -42,9 +46,9 @@ function finish(){
 		`rm foundation3.zip`
 	fi
 	pause
-	if [[ -f "CodeIgniter_2.0.3.zip" ]]; then
+	if [[ -f "CodeIgniter_2.1.2.zip" ]]; then
 		echo "Removing CodeIgniter.zip"
-		`rm CodeIgniter_2.0.3.zip`
+		`rm CodeIgniter_2.1.2.zip`
 	fi
 	pause
 	if [[ -d "__MACOSX" ]]; then
@@ -53,24 +57,90 @@ function finish(){
 	fi
 	pause
 
-	echo "Exiting"
+	if [[ -d "$DNAME" ]]; then
+		echo ""
+		echo "Changing to Project Directory: $DNAME"
+		cd $DNAME
+		echo "In Directory - ` pwd`"
+		echo "--------------------------"
+		echo "Do you want to install sparks (yes{y}/no{n})?"
+		read resp
+		if [[ $resp == "y" ]] || [[ $resp == "yes" ]]; then
+			echo "Installing Sparks"
+			php -r "$(curl -fsSL http://getsparks.org/go-sparks)"
+			echo ""
+			echo "SPARKS HELP"
+			echo "-----------"
+			php tools/spark help
+		else
+			echo "Exiting"
+		fi
+
+	fi
+}
+#check if CodeIgniter Exists
+function checkCi(){
+	unamestr=`uname`
+	
+	echo "Checking for existing CodeIgniter zip."
+	echo "--------------------------------------"
+	echo ""
+	#check if there is an existing CI zip
+	if [[ -f "$CI_PATH" ]]; then
+		echo "Detecting OS..."
+		if [[ "$unamestr" == "Linux" ]]; then
+			echo "Detected Linux"
+
+		elif [[ "$unamestr" == "Darwin" ]]; then
+			echo "Detected Mac OS"
+		else
+			echo "Could not detect your OS."
+		fi
+		echo "Found $CI_PATH"
+		echo "Copying $CI_PATH to `pwd`"
+		`cp $CI_PATH $CURRENT` #copy CI zip to current working directory
+	
+	else
+		echo "CodeIgniter zip file wasn't found"
+		echo "Detecting OS..."
+		if [[ "$unamestr" == "Linux" ]]; then
+			echo "Detected Linux"
+			echo "Download CodeIgniter"
+
+			read resp
+			if [[ $resp == "y" ]] || [[ $resp == "yes" ]]; then
+				`xdg-open $codeigniter`
+			fi
+
+		elif [[ "$unamestr" == "Darwin" ]]; then
+			echo "Detected Mac OS"
+			echo "Download CodeIgniter(y/n)"
+			read resp
+			if [[ $resp == "y" ]] || [[ $resp == "yes" ]]; then
+				`open $codeigniter`
+			fi
+		else
+			echo "Cannot detect your OS."
+			echo "Exiting."
+			exit 0
+		fi
+	fi
 }
 # Download and Install CodeIgniter with Boostrap From Twitter
 function boot(){
-	echo "Downloading Lastest Copy of CodeIgniter"
-
-	# Download codeigniter
-	`curl -O $codeigniter`
+	checkCi
+	#echo "Downloading Lastest Copy of CodeIgniter"
+	#`curl -O $codeigniter`
 	pause
 	echo "Unzipping CodeIgniter"
 	echo ""
 
 	# Check if CodeIgniter was downloaded and unzip it and rename it
 	# & change the permissions
-	if [[ -f "CodeIgniter_2.0.3.zip" ]]; then
-		`tar -xzvf CodeIgniter_2.0.3.zip`
-		`mv CodeIgniter_2.0.3 CodeIgniter`
-		`chmod 755 CodeIgniter`
+	if [[ -f "CodeIgniter_2.1.2.zip" ]]; then
+		`tar -xzvf CodeIgniter_2.1.2.zip`
+		`mv CodeIgniter_2.1.2 $DNAME`
+		`chmod 755 $DNAME`
 	fi
 
 	#Download Bootstrap From Twitter
@@ -87,9 +157,6 @@ function boot(){
 		`chmod 755 bootstrap`
 	fi
 
-	`mv CodeIgniter $DNAME`
-	`chmod 755 $DNAME`
-
 	#copy assets to project folder
 	`cp -r bootstrap/* $DNAME`
 	finish
@@ -97,17 +164,18 @@ function boot(){
 
 # Download and Install CodeIgniter with Foundation
 function found(){
-	echo "Downloading Lastest Copy of CodeIgniter"
-	`curl -O $codeigniter`
+	checkCi
+	#echo "Downloading Lastest Copy of CodeIgniter"
+	#`curl -O $codeigniter`
 	pause
 	echo "Unzipping CodeIgniter"
 	echo ""
 	# Check if CodeIgniter was downloaded and unzip it and rename it
 	# & change the permissions
-	if [[ -f "CodeIgniter_2.0.3.zip" ]]; then
-		`tar -xzvf CodeIgniter_2.0.3.zip`
-		`mv CodeIgniter_2.0.3 CodeIgniter`
-		`chmod 755 CodeIgniter`
+	if [[ -f "CodeIgniter_2.1.2.zip" ]]; then
+		`tar -xzvf CodeIgniter_2.1.2.zip`
+		`mv CodeIgniter_2.1.2 $DNAME`
+		`chmod 755 $DNAME`
 	fi
 
 	echo "Downloading Lastest Foundation"
@@ -123,9 +191,6 @@ function found(){
 		`chmod 755 foundation3`
 	fi
 
-	`mv CodeIgniter $DNAME`
-	`chmod 755 $DNAME`
-
 	#copy assets to project folder
 	`cp -r foundation3/images $DNAME`
 	`cp -r foundation3/stylesheets $DNAME`
@@ -136,17 +201,18 @@ function found(){
 
 # Download and Install CodeIgniter with both Bootstrap & Foundation
 function multi(){
-	echo "Downloading Lastest Copy of CodeIgniter"
-	`curl -O $codeigniter`
+	checkCi
+	#echo "Downloading Lastest Copy of CodeIgniter"
+	#`curl -O $codeigniter`
 	pause
 	echo "Unzipping CodeIgniter"
 	echo ""
 	# Check if CodeIgniter was downloaded and unzip it and rename it
 	# & change the permissions
-	if [[ -f "CodeIgniter_2.0.3.zip" ]]; then
-		`tar -xzvf CodeIgniter_2.0.3.zip`
-		`mv CodeIgniter_2.0.3 CodeIgniter`
-		`chmod 755 CodeIgniter`
+	if [[ -f "CodeIgniter_2.1.2.zip" ]]; then
+		`tar -xzvf CodeIgniter_2.1.2.zip`
+		`mv CodeIgniter_2.1.2 $DNAME`
+		`chmod 755 $DNAME`
 	fi
 
 	echo "Downloading Lastest Bootstrap"
@@ -173,9 +239,6 @@ function multi(){
 		`chmod 755 foundation3`
 	fi
 
-	`mv CodeIgniter $DNAME`
-	`chmod 755 $DNAME`
-
 	#copy assets to project folder
 	`cp -r bootstrap/* $DNAME`
 	`cp -r foundation3/images $DNAME`
@@ -184,24 +247,31 @@ function multi(){
 
 	finish
 }
-
 # Download and Install CodeIgniter with no CSS Framework
 function noframe(){
-	echo "Downloading Lastest Copy of CodeIgniter"
-	`curl -O $codeigniter`
-	pause
-	echo "Unzipping CodeIgniter"
+	checkCi
+	echo "Waiting for 5 seconds"
+	for i in {1..5}; do
+		echo -n "$i "
+		pause
+	done
+	echo ""
+
 	echo ""
 	# Check if CodeIgniter was downloaded and unzip it and rename it
 	# & change the permissions
-	if [[ -f "CodeIgniter_2.0.3.zip" ]]; then
-		`tar -xzvf CodeIgniter_2.0.3.zip`
-		`mv CodeIgniter_2.0.3 CodeIgniter`
-		`chmod 755 CodeIgniter`
-	fi
+	if [[ -f "CodeIgniter_2.1.2.zip" ]]; then
+		echo "Unzipping CodeIgniter"
+		`tar -xzvf CodeIgniter_2.1.2.zip`
+		`mv CodeIgniter_2.1.2 $DNAME`
+		`chmod 755 $DNAME`
+		break
+	else
+		echo "CodeIgniter is not in the current working directory."
+		break
+	fi	
 
-	`mv CodeIgniter $DNAME`
-	`chmod 755 $DNAME`
+	# `curl -O $codeigniter`
 
 	finish
 }
@@ -213,7 +283,6 @@ function manual(){
 	read DNAME
 
 	echo "Working"
-	pause
 	echo ""
 
 	echo "Choose CSS Framework"
@@ -221,7 +290,6 @@ function manual(){
 	echo "1. For Bootstrap, From Twitter"
 	echo "2. For Foundation By Zurb"
 	echo "3. To download both"
-	pause
 
 	# Get user input and call function
 	while read choice
@@ -279,11 +347,11 @@ function showhelp(){
 
 # Check if ignite is installed
 if [[ ! -f "/usr/bin/ignite.sh" ]]; then
-	echo "Do you want to install ignite? (y/n)"
+	echo "Do you want to install ignite? (yes{y}/no{n})"
 	read resp
 
 	# If user wants to install
-	if [[ $resp == "y" ]]; then
+	if [[ $resp == "y" ]] || [[ $resp == "yes" ]]; then
 		echo "Copied 'ignite.sh' to /usr/bin/"
 		`sudo cp ignite.sh /usr/bin`
 		pause
